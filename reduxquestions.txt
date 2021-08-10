@@ -1,0 +1,42 @@
+1. Actions are plain JavaScript objects that have a type field. As mentioned earlier, you can think of an action as an event that describes something that happened in the application.
+
+In the same way that we designed the state structure based on the app's requirements, we should also be able to come up with a list of some of the actions that describe what's happening:
+
+    Add a new todo entry based on the text the user entered
+    Toggle the completed status of a todo
+    Select a color category for a todo
+    Delete a todo
+    Mark all todos as completed
+    Clear all completed todos
+    Choose a different "completed" filter value
+    Add a new color filter
+    Remove a color filter
+
+We normally put any extra data needed to describe what's happening into the action.payload field. This could be a number, a string, or an object with multiple fields inside.
+
+2. Reducers are functions that take the current state and an action as arguments, and return a new state result. In other words, (state, action) => newState.
+
+Rules of Reducers
+
+Reducers must always follow some special rules:
+
+    They should only calculate the new state value based on the state and action arguments
+    They are not allowed to modify the existing state. Instead, they must make immutable updates, by copying the existing state and making changes to the copied values.
+    They must not do any asynchronous logic or other "side effects"
+
+3. Immutability
+
+But why are these rules important? There's a few different reasons:
+
+    One of the goals of Redux is to make your code predictable. When a function's output is only calculated from the input arguments, it's easier to understand how that code works, and to test it.
+    On the other hand, if a function depends on variables outside itself, or behaves randomly, you never know what will happen when you run it.
+    If a function modifies other values, including its arguments, that can change the way the application works unexpectedly. This can be a common source of bugs, such as "I updated my state, but now my UI isn't updating when it should!"
+    Some of the Redux DevTools capabilities depend on having your reducers follow these rules correctly
+
+There are several reasons why you must not mutate state in Redux:
+
+    It causes bugs, such as the UI not updating properly to show the latest values
+    It makes it harder to understand why and how the state has been updated
+    It makes it harder to write tests
+    It breaks the ability to use "time-travel debugging" correctly
+    It goes against the intended spirit and usage patterns for Redux
